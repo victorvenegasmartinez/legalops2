@@ -38,7 +38,7 @@ class AzureBlobStorage(object):
             content = content.decode("utf-8")
             return content
         except Exception:
-            err="Error uploading file to blob"
+            err="Error uploading file to blob in Azure"
             raise Exception(err)
 
     def list_blobs(self,):
