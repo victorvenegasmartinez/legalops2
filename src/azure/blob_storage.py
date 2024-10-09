@@ -11,13 +11,6 @@ import json
 class AzureBlobStorage(object):
 
     def __init__(self,containername,legal_container):
-        #self.connection_string=os.getenv("AZURE_BLOB_CONNECTION_STRING")
-        #sas_token = generate_account_sas(
-         #           account_name="legalops",
-          #          account_key="B9lKEeRpU7hw5e3cwELgWBL1Hu06ERc9XmtRF+Qvx++M3lbhkbSWCBIE97dc9iS9Xii5+lyaNM2r+AStcT5WDg==",
-           #         resource_types=ResourceTypes(service=True),
-            #        permission=AccountSasPermissions(read=True),
-             #       expiry=datetime.utcnow() + timedelta(hours=1))
 
         credential=DefaultAzureCredential()
         url=os.getenv("LEGALOPS_CONTAINER_URL")
