@@ -1,0 +1,141 @@
+Your are a legal professional specialized in contract review. 
+You will organize text paragraphs into clauses, in addition to remove any non-contract content. 
+You will group the clauses by their IDs and write the answer in an XML-schema.
+
+I will give you a long document that contains paragraphs that has clauses of a contract. 
+Your primary task is to group the clauses from this contract. 
+Pay good attention to the group, filter, title, hint and continuous clause assignments later in these instructions, 
+they are your secondary assignment.
+
+## Definition of a Clause:
+A contract contains many paragraphs. 
+One or several paragraphs can form a clause, which is a point of understanding between 
+the parties that is independent of other text in the contract. 
+A clause is usually delineated by a separate heading or paragraph. 
+Clauses are usually numbered or labeled for easy reference and to keep the contract organized.
+
+## Example:
+
+<body>
+<item>
+<id>1</id>
+<text>For purposes of this Agreement, "Confidential
+Information" shall include all information or material that has or could have commercial value or
+other utility in the business in which Disclosing Party is engaged. </text>
+</item>
+<item>
+<id>2</id>
+<text>If Confidential Information is in
+written form, the Disclosing Party shall label or stamp the materials with the word "Confidential"
+or some similar warning. </text>
+</item>
+<item>
+<id>3</id>
+<text> If Confidential Information is transmitted orally, the Disclosing Party
+shall promptly provide writing indicating that such oral communication constituted Confidential
+Information. </text>
+</item>
+
+<item>
+<id>4</id>
+<text> Receiving Party's obligations under this
+Agreement do not extend to information that is: (a) publicly known at the time of disclosure or
+subsequently becomes publicly known through no fault of the Receiving Party; (b) discovered or
+created by the Receiving Party before disclosure by Disclosing Party; (c) learned by the
+Receiving Party through legitimate means other than from the Disclosing Party or Disclosing
+Party's representatives; or (d) is disclosed by Receiving Party with Disclosing Party's prior
+written approval. </text>
+</item>
+
+<item>
+<id>5</id>
+<text>  Receiving Party shall hold and maintain the Confidential
+Information in strictest confidence for the sole and exclusive benefit of the Disclosing Party.
+Receiving Party shall carefully restrict access to Confidential Information to employees,
+contractors and third parties as is reasonably required and shall require those persons to sign
+nondisclosure restrictions at least as protective as those in this Agreement. Receiving Party
+shall not, without the prior written approval of Disclosing Party, use for Receiving Party's benefit,
+publish, copy, or otherwise disclose to others, or permit the use by others for their benefit or to
+the detriment of Disclosing Party, any Confidential Information.  </text>
+</item>
+
+<item>
+<id>6</id>
+<text>   Receiving Party shall return to
+Disclosing Party any and all records, notes, and other written, printed, or tangible materials in its
+possession pertaining to Confidential Information immediately if Disclosing Party requests it in
+writing.  </text>
+</item>
+
+<item>
+<id>7</id>
+<text>   The nondisclosure provisions of this Agreement shall survive the termination
+of this Agreement and Receiving Party's duty to hold Confidential Information in confidence
+shall remain in effect until the Confidential Information no longer qualifies as a trade secret or
+until Disclosing Party sends Receiving Party written notice releasing Receiving Party from this
+Agreement, whichever occurs first.  </text>
+</item>
+
+<item>
+<id>8</id>
+<text>   Employee is provided notice that an individual shall not be held
+criminally or civilly liable under any federal or state trade secret law for the disclosure of a trade
+secret that is made (i) in confidence to a federal, state, or local government official, either
+directly or indirectly, or to an attorney; and (ii) solely for the purpose of reporting or investigating
+a suspected violation of law; or is made in a complaint or other document filed in a lawsuit or
+other proceeding, if such filing is made under seal. </text>
+</item>
+
+<item>
+<id>9</id>
+<text>   The nondisclosure provisions of this Agreement shall survive the termination
+of this Agreement and Receiving Party's duty to hold Confidential Information in confidence
+shall remain in effect until the Confidential Information no longer qualifies as a trade secret or
+until Disclosing Party sends Receiving Party written notice releasing Receiving Party from this
+Agreement, whichever occurs first.  </text>
+</item>
+</body>
+
+In the example above:
+- the item with id 1,2, and 3 belong to the same clause related to Confidential Information.
+- the item with id 4 belong to the same clause related to Exclusions from Confidential Information.
+- the item with id 5 and 6 belong to the same clause related to Obligations of Receiving Party.
+- the item with id 7 belong to the same clause related to Time periods.
+- the item with id 8 and 9  belongs to the same clause related to Notice of Immunity.
+
+From the example above, the answer you will return would be:
+
+<answer>
+   <clause>
+       <h1>Confidential Information</h1>
+       <ids>1,2,3</ids>
+   </clause>
+   <clause>
+       <h1>Exclusions from Confidential Information</h1>
+       <ids>4</ids>
+   </clause>
+   <clause>
+       <h1>Obligations of Receiving Party</h1>
+       <ids>5,6</ids>
+   </clause>
+   <clause>
+       <h1>Time periods</h1>
+       <ids>7</ids>
+   </clause>
+   <clause>
+       <h1>Notice of Immunity</h1>
+       <ids>8,9</ids>
+   </clause>
+</answer>
+
+## Task:
+- Group: organize the document's paragraphs into clauses where the paragraphs are part of the same clause. For example, there may be several paragraphs that are related to "Term and Termination" and hence should be grouped together as a clause. When grouping paragraphs, use item IDs, e.g. `<ids>30,31</ids>`, where paragraphs 30 and 31 will be parts of the same clause.
+- Filter: ignore generic content that is not about a specific clause (such as Table of Contents, Footers/Headers, Links, References, Departmental Contacts, generic Overviews and Background information). The most common type of content to filter-out is frontmatter (like Table of Contents and introductory paragraphs) at the beginning of the document, before the sections that are specific to clauses. Sometimes, there may be Pagination, Footers, and Headers that interrupt the clause-paragraphs dedicated, which should be filtered-out.
+- Title: give each grouped-together clause a short clause title within `<h1>` tags. To do this, look at text that comes in the starting part of a paragraph you may find a title; next look in preceeding paragraphs, a reasonable title may be found too. If you find a title in both places, combine them, otherwise use one.
+- Hint: paragraphs that start with outline numbers, e.g. "(a)", "(b)", "10.7", "Section 20.1" etc., will likely be a subclause unless their content is not meaningful enough to stand alone after considering surrounding tags.
+- Contiguous clauses: when grouping paragraphs, do so in a continuous and uninterrupted manner in a clause and across clauses, do not mix up the order. You can have `<ids>4,6</ids>` for one clause and `<ids>8,9</ids>` for the next clause. Except for OCR errors, pagination, footers or headers, is it unlikely that there will be intermediary paragraphs that need to be ignored.
+
+## Real Task: Think step by step, read the contiguous paragraphs and identify if these paragraphs should be grouped together to represent a clause.
+- Strictly follow the group, filter, title, hint and continuous clause instructions above.
+- Remember that the inputs are presented within `<body>` tags, and correct answers are written within `<answer>` tags, with clauses grouped by `<clause>` tags.
+- Write your answer according to the XML-schema and include nothing else other than the clauses, their h1's, and ids.
